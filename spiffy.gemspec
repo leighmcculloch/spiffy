@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "spiffy"
-  s.version     = "0.0.1"
+  s.version     = "0.0.2"
   s.date        = "2015-03-06"
   s.summary     = "A markup to HTML & PDF converter."
   s.description = "A markup to HTML & PDF converter. Supports all markups supported by Github, including markdown, rdoc, etc."
