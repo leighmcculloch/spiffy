@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "spiffy"
-  s.version     = "0.0.2"
+  s.version     = "0.0.3"
   s.date        = "2015-03-06"
   s.summary     = "A markup to HTML & PDF converter."
   s.description = "A markup to HTML & PDF converter. Supports all markups supported by Github, including markdown, rdoc, etc."
@@ -8,7 +8,8 @@ Gem::Specification.new do |s|
   s.email       = "leigh@mcchouse.com"
   s.files       = [
     "lib/spiffy.rb",
-    "defaults/template.haml"
+    "defaults/template.haml",
+    "defaults/style.css"
   ]
   s.homepage    = "http://rubygems.org/gems/hola"
   s.license     = "BSD-3-Clause"

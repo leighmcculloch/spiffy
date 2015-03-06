@@ -15,7 +15,7 @@ options = {
 
 opt_parser = OptionParser.new do |opt|
   opt.banner = "Usage: spiffy [options] [file] [file] ..."
-  opt.separator("Version: 0.0.2")
+  opt.separator("Version: 0.0.3")
   opt.separator("")
   opt.separator("Options")
 
