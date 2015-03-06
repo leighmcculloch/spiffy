@@ -4,9 +4,9 @@ require "optparse"
 require "rubygems"
 require_relative "../lib/spiffy"
 
-DEFAULT_DIR = File.join(File.dirname(__FILE__), "../defaults")
-DEFAULT_TEMPLATE_FILE = File.join(DEFAULT_DIR, "template.haml")
-DEFAULT_CSS_FILE = File.join(DEFAULT_DIR, "style.css")
+DEFAULT_DIR = File.join(File.dirname(__FILE__), "../templates")
+DEFAULT_TEMPLATE_FILE = File.join(DEFAULT_DIR, "default.haml")
+DEFAULT_CSS_FILE = File.join(DEFAULT_DIR, "default.css")
 
 options = {
   :template => DEFAULT_TEMPLATE_FILE,
