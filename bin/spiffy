@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+require "rubygems"
+require_relative "../lib/spiffy"
+
+spec = Gem::Specification::load("spiffy.gemspec")
+
+DEFAULT_DIR = File.join(File.dirname(__FILE__), "../defaults")
+DEFAULT_TEMPLATE_FILE = File.join(DEFAULT_DIR, "template.haml")
+DEFAULT_CSS_FILE = File.join(DEFAULT_DIR, "style.css")
+
+options = {
+  :template => DEFAULT_TEMPLATE_FILE,
+  :css => DEFAULT_CSS_FILE
+}
+
+opt_parser = OptionParser.new do |opt|
+  opt.banner = "Usage: spiffy [options] [file] [file] ..."
+  opt.separator("Version: #{spec.version}")
+  opt.separator("")
+  opt.separator("Options")
+
+  opt.on("-C", "--css", String, "CSS to include inline in the HTML file output") do |css|
+    options[:css] = css
+  end
+
+  opt.on("-T", "--template", String, "Template to wrap the resulting HTML") do |template|
+    options[:template] = template
+  end
+
+  opt.on("-h", "--help", "help") do
+    puts opt_parser
+  end
+  
+  opt.separator("")
+end
+
+opt_parser.parse!
+
+if ARGV.empty?
+  puts opt_parser
+else
+  inputs = ARGV
+  inputs.each do |inputs|
+    Dir[inputs].each do |file|
+      Spiffy.markup_to_html(file, css_file: options[:css], template_file: options[:template])
+    end
+  end
+end
