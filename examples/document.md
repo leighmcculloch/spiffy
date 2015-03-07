@@ -22,6 +22,7 @@ JKL       | MNO       | PQR
 ## Lists
 
 And lists:
+
 * This
 * List
 * Is
