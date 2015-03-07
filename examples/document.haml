@@ -1,0 +1,10 @@
+%html
+  %head
+    %meta{ :charset => "utf-8" }
+    %style
+      = yield :css
+  %body
+    = yield :body
+    %hr
+    Version:
+    = `git rev-parse HEAD`

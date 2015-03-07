@@ -13,7 +13,7 @@ module Spiffy
     markup_file_name = File.basename(markup_file, ".*")
     markup = File.open(markup_file, "r:UTF-8", &:read)
 
-    html = GitHub::Markup.render(markup_file, markup)
+    html = Redcarpet::Markdown.new(Redcarpet::Render::HTML, tables: true).render(markup)
     
     if css_file
       css = File.open(css_file, "r:UTF-8", &:read)

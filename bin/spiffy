@@ -19,11 +19,11 @@ opt_parser = OptionParser.new do |opt|
   opt.separator("")
   opt.separator("Options")
 
-  opt.on("-C", "--css", String, "CSS to include inline in the HTML file output") do |css|
+  opt.on("-C", "--css CSS", "CSS to include inline in the HTML file output") do |css|
     options[:css] = css
   end
 
-  opt.on("-T", "--template", String, "Template to wrap the resulting HTML") do |template|
+  opt.on("-T", "--template TEMPLATE", "Template to wrap the resulting HTML") do |template|
     options[:template] = template
   end
 
