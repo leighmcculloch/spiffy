@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.name        = "spiffy"
   s.version     = Spiffy::VERSION
   s.date        = "2015-03-08"
-  s.summary     = "A markup to HTML & PDF converter."
-  s.description = "A markup to HTML & PDF converter. Supports all markups supported by Github, including markdown, rdoc, etc."
+  s.summary     = "A markdown to HTML & PDF converter."
+  s.description = "A markdown to HTML & PDF converter, with simple ERB & HAML templating and CSS styling."
   s.authors     = ["Leigh McCulloch"]
   s.email       = "leigh@mcchouse.com"
   s.files       = [

@@ -1,7 +1,6 @@
 - markdown_files:
     - resume*.md
   css_file: resume.css
-  template_file: resume.haml
 
 - markdown_files:
     - document.md

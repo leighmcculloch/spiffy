@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    spiffy (0.0.4)
+    spiffy (0.0.11)
       haml (~> 4.0, >= 4.0.6)
       pdfkit (~> 0.6, >= 0.6.2)
       redcarpet (~> 3.2, >= 3.2.2)

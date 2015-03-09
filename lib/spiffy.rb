@@ -4,7 +4,7 @@ require "haml"
 require "pdfkit"
 
 module Spiffy
-  VERSION = "0.0.11"
+  VERSION = "0.0.12"
 
   def self.markup_to_html(markup_file, css_file: nil, template_file: nil, pdf: false)
     markup_file_ext = File.extname(markup_file)
