@@ -19,11 +19,19 @@ module Spiffy
     if template_file
       template_ext = File.extname(template_file)
       template = File.open(template_file, "r:UTF-8", &:read)
+      local_variables = {
+        file: markup_file
+      }
       html = case template_ext
              when ".erb"
-               ERB.new(template).result { |section| case section; when :css; css; when :body, nil; html; end }
+               ERB.new(template).result do |section|
+                 case section; when :css; css; when :body, nil; html; end
+               end
              when ".haml"
-               Haml::Engine.new(template).render { |section| case section; when :css; css; when :body, nil; html; end }
+               engine = Haml::Engine.new(template)
+               engine.render(Object.new, local_variables) do |section|
+                 case section; when :css; css; when :body, nil; html; end
+               end
              else
                raise "Template file #{template_file} unsupported. Only .erb or .haml are supported."
              end
