@@ -8,6 +8,7 @@ module Spiffy
   def self.markup_to_html(markup_file, css_file: nil, template_file: nil, pdf: false)
     markup_file_ext = File.extname(markup_file)
     markup_file_name = markup_file[0...-markup_file_ext.length]
+    markup_file_directory = File.dirname(markup_file)
     markup = File.open(markup_file, "r:UTF-8", &:read)
 
     html = GitHub::Markup.render(markup_file, markup)
@@ -20,6 +21,7 @@ module Spiffy
       template_ext = File.extname(template_file)
       template = File.open(template_file, "r:UTF-8", &:read)
       local_variables = {
+        base_url: "file://#{File.absolute_path(markup_file_directory)}/",
         file: markup_file
       }
       html = case template_ext
