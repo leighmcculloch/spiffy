@@ -4,6 +4,8 @@ require "haml"
 require "pdfkit"
 
 module Spiffy
+  VERSION = "0.0.8"
+
   def self.markup_to_html(markup_file, css_file: nil, template_file: nil, pdf: false)
     markup_file_name = File.basename(markup_file, ".*")
     markup = File.open(markup_file, "r:UTF-8", &:read)

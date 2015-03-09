@@ -19,7 +19,7 @@ options = {
 
 opt_parser = OptionParser.new do |opt|
   opt.banner = "Usage: spiffy [options] [file] [file] ..."
-  opt.separator("Version: 0.0.3")
+  opt.separator("Version: #{Spiffy::VERSION}")
   opt.separator("")
   opt.separator("Options")
 
@@ -35,9 +35,15 @@ opt_parser = OptionParser.new do |opt|
     options["pdf"] = true
   end
 
-  opt.on("-h", "--help", "help") do
+  opt.on("-h", "--help", "This usage outline.") do
     puts opt_parser
   end
+
+  opt.separator("")
+  
+  opt.separator("Alternatively:")
+  opt.separator("Create a .spiffy.yml in this directory with options within.")
+  opt.separator("See https://github.com/leighmcculloch/spiffy.")
   
   opt.separator("")
 end
@@ -54,8 +60,11 @@ when ARGV.any?
   end
 when has_dot_file
   sets = YAML.load_file(DOT_FILE)
-else
+end
+
+if !sets
   puts opt_parser
+  abort
 end
 
 sets.each do |set|

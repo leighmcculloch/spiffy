@@ -1,6 +1,8 @@
+require_relative "lib/spiffy"
+
 Gem::Specification.new do |s|
   s.name        = "spiffy"
-  s.version     = "0.0.4"
+  s.version     = Spiffy::VERSION
   s.date        = "2015-03-08"
   s.summary     = "A markup to HTML & PDF converter."
   s.description = "A markup to HTML & PDF converter. Supports all markups supported by Github, including markdown, rdoc, etc."
