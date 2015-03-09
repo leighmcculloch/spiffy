@@ -1,17 +1,16 @@
 require "github/markup"
-require "redcarpet"
 require "haml"
 require "pdfkit"
 
 module Spiffy
-  VERSION = "0.0.12"
+  VERSION = "0.0.13"
 
   def self.markup_to_html(markup_file, css_file: nil, template_file: nil, pdf: false)
     markup_file_ext = File.extname(markup_file)
     markup_file_name = markup_file[0...-markup_file_ext.length]
     markup = File.open(markup_file, "r:UTF-8", &:read)
 
-    html = Redcarpet::Markdown.new(Redcarpet::Render::HTML, tables: true).render(markup)
+    html = GitHub::Markup.render(markup_file, markup)
     
     if css_file
       css = File.open(css_file, "r:UTF-8", &:read)
