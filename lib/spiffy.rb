@@ -4,10 +4,11 @@ require "haml"
 require "pdfkit"
 
 module Spiffy
-  VERSION = "0.0.8"
+  VERSION = "0.0.11"
 
   def self.markup_to_html(markup_file, css_file: nil, template_file: nil, pdf: false)
-    markup_file_name = File.basename(markup_file, ".*")
+    markup_file_ext = File.extname(markup_file)
+    markup_file_name = markup_file[0...-markup_file_ext.length]
     markup = File.open(markup_file, "r:UTF-8", &:read)
 
     html = Redcarpet::Markdown.new(Redcarpet::Render::HTML, tables: true).render(markup)

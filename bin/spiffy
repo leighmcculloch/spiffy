@@ -56,7 +56,7 @@ case
 when ARGV.any?
   warn "Ignoring .spiffy.yml as arguments provided." if has_dot_file
   sets = ARGV.map do |arg|
-    { "markdown_files" => [arg] }.merge(options)
+    { "markdown_files" => [arg] }
   end
 when has_dot_file
   sets = YAML.load_file(DOT_FILE)
@@ -72,9 +72,9 @@ sets.each do |set|
     Dir[input].each do |file|
       print "Converting #{file}..."
       Spiffy.markup_to_html(file,
-                            css_file: set["css_file"],
-                            template_file: set["template_file"],
-                            pdf: set["pdf"])
+                            css_file: set["css_file"] || options["css_file"],
+                            template_file: set["template_file"] || options["template_file"],
+                            pdf: set["pdf"] || options["pdf"])
       puts "done"
     end
   end
