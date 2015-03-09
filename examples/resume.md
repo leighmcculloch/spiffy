@@ -3,8 +3,6 @@
 Commander of Battlestar Galactica  
 [Wikipedia](http://en.wikipedia.org/wiki/Adama_%28Battlestar_Galactica%29)
 
- 
-
 A fictional character portrayed by Edward James Olmos[2] in the re-imagined Battlestar Galactica television series produced and aired by the SyFy cable network. He is one of the main characters, a reimagining of Commander Adama from the 1978 Battlestar Galactica series played by Lorne Greene.
 
 ## Key Capabilities

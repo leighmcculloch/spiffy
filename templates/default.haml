@@ -1,6 +1,12 @@
 %html
   %head
-    %meta{ :charset => "utf-8" }
+    %meta{ charset: "utf-8" }
+    %meta{ name: "print_media_type", content: "true"}
+    %meta{ name: "pdfkit-page_size", content: "Letter" }
+    %meta{ name: "pdfkit-margin_top", content: "0.5in" }
+    %meta{ name: "pdfkit-margin_right", content: "0.5in" }
+    %meta{ name: "pdfkit-margin_bottom", content: "0.5in" }
+    %meta{ name: "pdfkit-margin_left", content: "0.5in" }
     %style
       = yield :css
   %body

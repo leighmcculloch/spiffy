@@ -2,15 +2,19 @@
 
 require "optparse"
 require "rubygems"
+require "yaml"
 require_relative "../lib/spiffy"
 
 DEFAULT_DIR = File.join(File.dirname(__FILE__), "../templates")
 DEFAULT_TEMPLATE_FILE = File.join(DEFAULT_DIR, "default.haml")
 DEFAULT_CSS_FILE = File.join(DEFAULT_DIR, "default.css")
 
+DOT_FILE = ".spiffy.yml"
+
 options = {
-  :template => DEFAULT_TEMPLATE_FILE,
-  :css => DEFAULT_CSS_FILE
+  "template" => DEFAULT_TEMPLATE_FILE,
+  "css" => DEFAULT_CSS_FILE,
+  "pdf" => false
 }
 
 opt_parser = OptionParser.new do |opt|
@@ -19,12 +23,16 @@ opt_parser = OptionParser.new do |opt|
   opt.separator("")
   opt.separator("Options")
 
-  opt.on("-C", "--css CSS", "CSS to include inline in the HTML file output") do |css|
-    options[:css] = css
+  opt.on("-c", "--css [css]", "CSS to include inline in the HTML file output") do |css|
+    options["css_file"] = css
   end
 
-  opt.on("-T", "--template TEMPLATE", "Template to wrap the resulting HTML") do |template|
-    options[:template] = template
+  opt.on("-t", "--template [template]", "Template to wrap the resulting HTML") do |template|
+    options["template_file"] = template
+  end
+
+  opt.on("-p", "--pdf", "Output PDF files (default: off)") do
+    options["pdf"] = true
   end
 
   opt.on("-h", "--help", "help") do
@@ -36,13 +44,29 @@ end
 
 opt_parser.parse!
 
-if ARGV.empty?
-  puts opt_parser
+has_dot_file = File.exists?(DOT_FILE)
+
+case
+when ARGV.any?
+  warn "Ignoring .spiffy.yml as arguments provided." if has_dot_file
+  sets = ARGV.map do |arg|
+    { "markdown_files" => [arg] }.merge(options)
+  end
+when has_dot_file
+  sets = YAML.load_file(DOT_FILE)
 else
-  inputs = ARGV
-  inputs.each do |inputs|
-    Dir[inputs].each do |file|
-      Spiffy.markup_to_html(file, css_file: options[:css], template_file: options[:template])
+  puts opt_parser
+end
+
+sets.each do |set|
+  set["markdown_files"].each do |input|
+    Dir[input].each do |file|
+      print "Converting #{file}..."
+      Spiffy.markup_to_html(file,
+                            css_file: set["css_file"],
+                            template_file: set["template_file"],
+                            pdf: set["pdf"])
+      puts "done"
     end
   end
 end
