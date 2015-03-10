@@ -5,7 +5,7 @@ require "pdfkit"
 module Spiffy
   VERSION = "0.0.15"
 
-  def self.markup_to_html(markup_file, css_file: nil, template_file: nil, pdf: false)
+  def self.markup_to_html(markup_file, css_file: nil, template_file: nil, output_html: true, output_pdf: false)
     markup_file_ext = File.extname(markup_file)
     markup_file_name = markup_file[0...-markup_file_ext.length]
     markup_file_directory = File.dirname(markup_file)
@@ -39,13 +39,16 @@ module Spiffy
              end
     end
 
-    html_file = "#{markup_file_name}.html"
-    File.open(html_file, "w:UTF-8") { |f| f.write(html) }
+    if output_html
+      html_file = "#{markup_file_name}.html"
+      File.open(html_file, "w:UTF-8") { |f| f.write(html) }
+    end
 
-    return unless pdf
-    pdf_file = "#{markup_file_name}.pdf"
-    pdf = PDFKit.new(html)
-    pdf.stylesheets << css_file if css_file
-    pdf.to_file(pdf_file)
+    if output_pdf
+      pdf_file = "#{markup_file_name}.pdf"
+      pdf = PDFKit.new(html)
+      pdf.stylesheets << css_file if css_file
+      pdf.to_file(pdf_file)
+    end
   end
 end

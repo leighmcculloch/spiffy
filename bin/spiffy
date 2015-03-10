@@ -14,6 +14,7 @@ DOT_FILE = ".spiffy.yml"
 options = {
   :template_file => DEFAULT_TEMPLATE_FILE,
   :css_file => DEFAULT_CSS_FILE,
+  :html => true,
   :pdf => false
 }
 
@@ -31,8 +32,12 @@ opt_parser = OptionParser.new do |opt|
     options[:template_file] = template
   end
 
-  opt.on("-p", "--pdf", "Output PDF files (default: off)") do
-    options[:pdf] = true
+  opt.on("-p", "--pdf [on|off]", "Output PDF files (default: off)") do |on_or_off|
+    options[:pdf] = on_or_off != "off"
+  end
+
+  opt.on("-h", "--html [on|off]", "Output HTML files (default: on)") do |on_or_off|
+    options[:html] = on_or_off != "off"
   end
 
   opt.on("-h", "--help", "This usage outline.") do
@@ -75,7 +80,8 @@ sets.each do |set|
       Spiffy.markup_to_html(file,
                             css_file: set["css_file"] || options[:css_file],
                             template_file: set["template_file"] || options[:template_file],
-                            pdf: set["pdf"] || options[:pdf])
+                            output_html: set["html"] || options[:html],
+                            output_pdf: set["pdf"] || options[:pdf])
       puts "done"
     end
   end
