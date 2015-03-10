@@ -73,19 +73,19 @@ if !sets
 end
 
 begin
-sets.each do |set|
-  set["markdown_files"].each do |input|
-    Dir[input].each do |file|
-      print "Converting #{file}..."
-      Spiffy.markup_to_html(file,
-                            css_file: set["css_file"] || options[:css_file],
-                            template_file: set["template_file"] || options[:template_file],
-                            output_html: set["html"] || options[:html],
-                            output_pdf: set["pdf"] || options[:pdf])
-      puts "done"
+  sets.each do |set|
+    set["markdown_files"].each do |input|
+      Dir[input].each do |file|
+        print "Converting #{file}..."
+        Spiffy.markup_to_html(file,
+                              css_file: set["css_file"] || options[:css_file],
+                              template_file: set["template_file"] || options[:template_file],
+                              output_html: set["html"] || options[:html],
+                              output_pdf: set["pdf"] || options[:pdf])
+        puts "done"
+      end
     end
   end
-end
 rescue RuntimeError => e
   warn e.message
 end
