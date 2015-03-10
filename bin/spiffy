@@ -8,14 +8,16 @@ require_relative "../lib/spiffy"
 DEFAULT_DIR = File.join(File.dirname(__FILE__), "../templates")
 DEFAULT_TEMPLATE_FILE = File.join(DEFAULT_DIR, "default.haml")
 DEFAULT_CSS_FILE = File.join(DEFAULT_DIR, "default.css")
+DEFAULT_HTML = true
+DEFAULT_PDF = false
 
 DOT_FILE = ".spiffy.yml"
 
 options = {
-  :template_file => DEFAULT_TEMPLATE_FILE,
-  :css_file => DEFAULT_CSS_FILE,
-  :html => true,
-  :pdf => false
+  :template_file => nil,
+  :css_file => nil,
+  :html => nil,
+  :pdf => nil
 }
 
 opt_parser = OptionParser.new do |opt|
@@ -57,14 +59,19 @@ opt_parser.parse!
 
 has_dot_file = File.exists?(DOT_FILE)
 
-case
-when ARGV.any?
-  warn "Ignoring .spiffy.yml as arguments provided." if has_dot_file
-  sets = ARGV.map do |arg|
-    { "markdown_files" => [arg] }
-  end
-when has_dot_file
+if File.exists?(DOT_FILE)
   sets = YAML.load_file(DOT_FILE)
+end
+
+if ARGV.any?
+  sets = ARGV.map do |arg|
+    set = sets.find({}) do |set|
+      set["markdown_files"].any? do |markdown_file|
+        File.fnmatch(markdown_file, arg)
+      end
+    end
+    set.merge({ "markdown_files" => [arg] })
+  end
 end
 
 if !sets
@@ -78,10 +85,10 @@ begin
       Dir[input].each do |file|
         print "Converting #{file}..."
         Spiffy.markup_to_html(file,
-                              css_file: set["css_file"] || options[:css_file],
-                              template_file: set["template_file"] || options[:template_file],
-                              output_html: set["html"] || options[:html],
-                              output_pdf: set["pdf"] || options[:pdf])
+                              css_file: options[:css_file] || set["css_file"] || DEFAULT_CSS_FILE,
+                              template_file: options[:template_file] || set["template_file"] || DEFAULT_TEMPLATE_FILE,
+                              output_html: options[:html].nil? ? set["html"] || DEFAULT_HTML : options[:html],
+                              output_pdf: options[:pdf].nil? ? set["pdf"] || DEFAULT_PDF : options[:pdf])
         puts "done"
       end
     end
