@@ -67,6 +67,7 @@ if !sets
   abort
 end
 
+begin
 sets.each do |set|
   set["markdown_files"].each do |input|
     Dir[input].each do |file|
@@ -78,4 +79,7 @@ sets.each do |set|
       puts "done"
     end
   end
+end
+rescue RuntimeError => e
+  warn e.message
 end
