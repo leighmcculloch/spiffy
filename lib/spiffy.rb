@@ -1,11 +1,12 @@
+require "fileutils"
 require "github/markup"
 require "haml"
 require "pdfkit"
 
 module Spiffy
-  def self.markup_to_html(markup_file, css_file: nil, template_file: nil, output_html: true, output_pdf: false)
+  def self.markup_to_html(markup_file, css_file: nil, template_file: nil, output_html: true, output_pdf: false, output_dir: nil)
     markup_file_ext = File.extname(markup_file)
-    markup_file_name = markup_file[0...-markup_file_ext.length]
+    markup_file_name = File.basename(markup_file, ".*")
     markup_file_directory = File.dirname(markup_file)
     markup = File.open(markup_file, "r:UTF-8", &:read)
 
@@ -37,13 +38,17 @@ module Spiffy
              end
     end
 
+    output_dir = File.join(output_dir, "") if output_dir
+    output_dir = "#{output_dir}#{markup_file_directory}"
+    FileUtils.mkdir_p(output_dir) unless File.directory?(output_dir)
+
     if output_html
-      html_file = "#{markup_file_name}.html"
+      html_file = File.join(output_dir, "#{markup_file_name}.html")
       File.open(html_file, "w:UTF-8") { |f| f.write(html) }
     end
 
     if output_pdf
-      pdf_file = "#{markup_file_name}.pdf"
+      pdf_file = File.join(output_dir, "#{markup_file_name}.pdf")
       pdf = PDFKit.new(html)
       pdf.stylesheets << css_file if css_file
       pdf.to_file(pdf_file)

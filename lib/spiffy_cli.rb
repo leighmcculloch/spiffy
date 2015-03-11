@@ -37,6 +37,10 @@ module SpiffyCli
         options[:html] = on_or_off != "off"
       end
 
+      opt.on("-o", "--out [output directory]", "Output files to this directory") do |output_dir|
+        options[:output_dir] = output_dir
+      end
+
       opt.on("-h", "--help", "This usage outline.") do
         puts opt_parser
         options[:help] = true
@@ -98,7 +102,8 @@ module SpiffyCli
                                 css_file: options[:css_file] || set["css_file"] || DEFAULT_CSS_FILE,
                                 template_file: options[:template_file] || set["template_file"] || DEFAULT_TEMPLATE_FILE,
                                 output_html: output_html,
-                                output_pdf: output_pdf)
+                                output_pdf: output_pdf,
+                                output_dir: options[:output_dir] || set["output_dir"])
           puts "done"
         end
       end
