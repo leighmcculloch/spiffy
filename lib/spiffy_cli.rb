@@ -39,6 +39,7 @@ module SpiffyCli
 
       opt.on("-h", "--help", "This usage outline.") do
         puts opt_parser
+        options[:help] = true
       end
 
       opt.separator("")
@@ -52,6 +53,8 @@ module SpiffyCli
 
     opt_parser.parse!
 
+    return if options[:help]
+    
     self.handle(options)
   end
 
@@ -75,7 +78,7 @@ module SpiffyCli
 
     if !sets
       puts opt_parser
-      abort
+      return
     end
 
     sets.each do |set|
