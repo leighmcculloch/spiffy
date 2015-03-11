@@ -33,7 +33,7 @@ module SpiffyCli
         options[:pdf] = on_or_off != "off"
       end
 
-      opt.on("-h", "--html [on|off]", "Output HTML files (default: on)") do |on_or_off|
+      opt.on("-m", "--html [on|off]", "Output HTML files (default: on)") do |on_or_off|
         options[:html] = on_or_off != "off"
       end
 
