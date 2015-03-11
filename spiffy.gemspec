@@ -1,14 +1,16 @@
-require_relative "lib/spiffy"
+require_relative "lib/spiffy_version"
 
 Gem::Specification.new do |s|
   s.name        = "spiffy"
-  s.version     = Spiffy::VERSION
+  s.version     = SpiffyVersion::VERSION
   s.date        = "2015-03-08"
   s.summary     = "A markdown to HTML & PDF converter."
   s.description = "A markdown to HTML & PDF converter, with simple ERB & HAML templating and CSS styling."
   s.authors     = ["Leigh McCulloch"]
   s.email       = "leigh@mcchouse.com"
   s.files       = [
+    "lib/spiffy_version.rb",
+    "lib/spiffy_cli.rb",
     "lib/spiffy.rb",
     "templates/default.haml",
     "templates/default.css"

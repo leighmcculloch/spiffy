@@ -2,6 +2,7 @@ require "optparse"
 require "rubygems"
 require "yaml"
 require_relative "spiffy"
+require_relative "spiffy_version"
 
 module SpiffyCli
   DEFAULT_DIR = File.join(File.dirname(__FILE__), "../templates")
@@ -16,7 +17,7 @@ module SpiffyCli
 
     opt_parser = OptionParser.new do |opt|
       opt.banner = "Usage: spiffy [options] [file] [file] ..."
-      opt.separator("Version: #{Spiffy::VERSION}")
+      opt.separator("Version: #{SpiffyVersion::VERSION}")
       opt.separator("")
       opt.separator("Options")
 

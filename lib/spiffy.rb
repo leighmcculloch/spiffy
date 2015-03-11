@@ -3,8 +3,6 @@ require "haml"
 require "pdfkit"
 
 module Spiffy
-  VERSION = "0.0.15"
-
   def self.markup_to_html(markup_file, css_file: nil, template_file: nil, output_html: true, output_pdf: false)
     markup_file_ext = File.extname(markup_file)
     markup_file_name = markup_file[0...-markup_file_ext.length]
