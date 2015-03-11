@@ -1,98 +1,11 @@
 #!/usr/bin/env ruby
 
-require "optparse"
-require "rubygems"
-require "yaml"
-require_relative "../lib/spiffy"
-
-DEFAULT_DIR = File.join(File.dirname(__FILE__), "../templates")
-DEFAULT_TEMPLATE_FILE = File.join(DEFAULT_DIR, "default.haml")
-DEFAULT_CSS_FILE = File.join(DEFAULT_DIR, "default.css")
-DEFAULT_HTML = true
-DEFAULT_PDF = false
-
-DOT_FILE = ".spiffy.yml"
-
-options = {
-  :template_file => nil,
-  :css_file => nil,
-  :html => nil,
-  :pdf => nil
-}
-
-opt_parser = OptionParser.new do |opt|
-  opt.banner = "Usage: spiffy [options] [file] [file] ..."
-  opt.separator("Version: #{Spiffy::VERSION}")
-  opt.separator("")
-  opt.separator("Options")
-
-  opt.on("-c", "--css [css]", "CSS to include inline in the HTML file output") do |css|
-    options[:css_file] = css
-  end
-
-  opt.on("-t", "--template [template]", "Template to wrap the resulting HTML") do |template|
-    options[:template_file] = template
-  end
-
-  opt.on("-p", "--pdf [on|off]", "Output PDF files (default: off)") do |on_or_off|
-    options[:pdf] = on_or_off != "off"
-  end
-
-  opt.on("-h", "--html [on|off]", "Output HTML files (default: on)") do |on_or_off|
-    options[:html] = on_or_off != "off"
-  end
-
-  opt.on("-h", "--help", "This usage outline.") do
-    puts opt_parser
-  end
-
-  opt.separator("")
-  
-  opt.separator("Alternatively:")
-  opt.separator("Create a .spiffy.yml in this directory with options within.")
-  opt.separator("See https://github.com/leighmcculloch/spiffy.")
-  
-  opt.separator("")
-end
-
-opt_parser.parse!
-
-has_dot_file = File.exists?(DOT_FILE)
-
-if File.exists?(DOT_FILE)
-  sets = YAML.load_file(DOT_FILE)
-end
-
-if ARGV.any?
-  sets = ARGV.map do |arg|
-    set = sets.find({}) do |set|
-      set["markdown_files"].any? do |markdown_file|
-        File.fnmatch(markdown_file, arg)
-      end
-    end
-    set.merge({ "markdown_files" => [arg] })
-  end
-end
-
-if !sets
-  puts opt_parser
-  abort
-end
+require_relative "../lib/spiffy_cli"
 
 begin
-  sets.each do |set|
-    set["markdown_files"].each do |input|
-      Dir[input].each do |file|
-        print "Converting #{file}..."
-        Spiffy.markup_to_html(file,
-                              css_file: options[:css_file] || set["css_file"] || DEFAULT_CSS_FILE,
-                              template_file: options[:template_file] || set["template_file"] || DEFAULT_TEMPLATE_FILE,
-                              output_html: options[:html].nil? ? set["html"] || DEFAULT_HTML : options[:html],
-                              output_pdf: options[:pdf].nil? ? set["pdf"] || DEFAULT_PDF : options[:pdf])
-        puts "done"
-      end
-    end
-  end
+  SpiffyCli.main
+rescue SystemExit, Interrupt
+  warn "\nExiting.."
 rescue RuntimeError => e
   warn e.message
 end
