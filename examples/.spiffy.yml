@@ -6,3 +6,4 @@
     - document.md
   template_file: document.haml
   pdf: true
+  html: false
