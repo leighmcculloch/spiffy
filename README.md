@@ -1,7 +1,7 @@
 # spiffy
-A simple to use markdown to HTML and PDF terminal application.
+A simple to use markdown to HTML and PDF command line app.
 
-Supports Github flavored markdown and great for converting large numbers of documents into professional PDFs using ERB/HAML templates and CSS.
+Supports Github flavored markdown and great for converting single or many documents into professional PDFs using ERB/HAML templates and CSS.
 
 ## Install
 
