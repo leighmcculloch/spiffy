@@ -1,3 +1,6 @@
+---
+Title: Document Title
+---
 # Document Heading
 
 This is an example markdown document.
