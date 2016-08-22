@@ -1,10 +1,5 @@
 %html
   %head
-    :ruby
-      modified_by = `git log -n 1 --pretty=format:%an "#{file}"`
-      modified_at = `git log -n 1 --date=short --pretty=format:%ad "#{file}"`
-      authors = `git log --pretty=format:%an "#{file}"`.split("\n").uniq.join(", ")
-      version = `git log -n 1 --pretty=format:%h "#{file}"`
     %meta{ charset: "utf-8" }
     %base{ href: base_url }
     %meta{ name: "print_media_type", content: "true"}
@@ -40,9 +35,9 @@
       %br
       .company-name Company Name
       %br
-      Authors: #{authors}
+      Authors: #{git[:authors]}
       %br
-      Last Modified by #{modified_by} on #{modified_at}
+      Last Modified by #{git[:modified_by]} on #{git[:modified_at]}
       %br
-      Version: #{version}
+      Version: #{git[:version]}
     = yield :body

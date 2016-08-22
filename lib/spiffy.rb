@@ -5,6 +5,22 @@ require "pdfkit"
 require "yaml"
 
 module Spiffy
+  def self.git(file)
+    return {} unless system("git rev-parse --git-dir > /dev/null 2>&1")
+
+    modified_by = `git log -n 1 --pretty=format:%an "#{file}"`
+    modified_at = `git log -n 1 --date=short --pretty=format:%ad "#{file}"`
+    authors = `git log --pretty=format:%an "#{file}"`.split("\n").uniq.join(", ")
+    version = `git log -n 1 --pretty=format:%h "#{file}"`
+
+    return {
+      modified_by: modified_by,
+      modified_at: modified_at,
+      authors: authors,
+      version: version,
+    }
+  end
+
   def self.markup_to_html(markup_file, css_file: nil, template_file: nil, output_html: true, output_pdf: false, output_dir: nil)
     markup_file_ext = File.extname(markup_file)
     markup_file_name = File.basename(markup_file, ".*")
@@ -31,6 +47,7 @@ module Spiffy
         base_url: "file://#{File.absolute_path(markup_file_directory)}/",
         file: markup_file,
         meta: metadata,
+        git: self.git(markup_file),
       }
       html = case template_ext
              when ".erb"
